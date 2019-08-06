@@ -11,11 +11,13 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.model.CurrentStrickPriceRequest;
 import com.example.model.MeanStrickPriceRequest;
 import com.example.model.NseindiaRequest;
 import com.example.model.NseindiaResponse;
@@ -52,13 +54,33 @@ public class ApiController {
 		LOG.info("Response:" + parametersSnapshot.toString());
 		return parametersSnapshot;
 	}
+	
 	@GetMapping("/api/mean-strick-price")
-	public ParametersSnapshot getMeanStrickPricefromDb(@RequestBody MeanStrickPriceRequest meanStrickPriceRequest) {
+	public ParametersSnapshot getMeanStrickPricefromDb(@RequestBody @Validated MeanStrickPriceRequest meanStrickPriceRequest) {
 		LOG.info("Request Body:" + meanStrickPriceRequest.toString());
 		ParametersSnapshot parametersSnapshot=null;
 		try{
 			
 			parametersSnapshot=parametersService.getMeanStrickPrice(meanStrickPriceRequest);
+			/*for(NseindiaResponse nseindiaResponse: nseindiaResponseList)
+			{
+				System.out.println(nseindiaResponse.toString());
+			}*/
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		LOG.info("Response:" + parametersSnapshot.toString());
+		return parametersSnapshot;
+	}
+	
+	@GetMapping("/api/live-strick-price")
+	public ParametersSnapshot getLiveStrickPrice(@RequestBody CurrentStrickPriceRequest currentStrickPriceRequest) {
+		LOG.info("Request Body:" + currentStrickPriceRequest.toString());
+		ParametersSnapshot parametersSnapshot=null;
+		try{
+			
+			parametersSnapshot=parametersService.currentStrickPrice(currentStrickPriceRequest);
 			/*for(NseindiaResponse nseindiaResponse: nseindiaResponseList)
 			{
 				System.out.println(nseindiaResponse.toString());

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.example.model.CurrentStrickPriceRequest;
 import com.example.model.NseindiaResponse;
 import com.example.model.Parameters;
 import com.example.model.ParametersSnapshot;
@@ -33,9 +34,11 @@ public class EventCreator {
     @Autowired
     NseindiaResponse nseindiaResponse;
     
+    
+    
     TimerTask tt=null;
     
-    @Scheduled(cron = "40 31 16 * * ?")
+    @Scheduled(cron = "30 40 23 * * ?")
     public void publish() {
        
         LOG.info("Publish started at = ", LocalDateTime.now());
@@ -46,7 +49,7 @@ public class EventCreator {
             @Override  
             public void run() {  
                 insertStackValues(); 
-                if( new Date().getHours()==16 && new Date().getMinutes()==32)
+                if( new Date().getHours()==23 && new Date().getMinutes()==41)
                 {
                 	tt.cancel();
                 }
@@ -63,7 +66,8 @@ public class EventCreator {
     		System.out.println("in try start");
     		ParametersSnapshot dbParametersSnapshot=parametersRepository.findTop1ByFlagOrderBySnapDateDesc("mean");
     		System.out.println("In EventCreator dbParametersSnapshot:= " + dbParametersSnapshot.toString()  );
-    		ParametersSnapshot parametersSnapshot=parametersService.currentStrickPrice("BANKNIFTY", "8AUG2019", dbParametersSnapshot.getMeanStrikePrice());
+    		CurrentStrickPriceRequest currentStrickPriceRequest=new CurrentStrickPriceRequest("BANKNIFTY", "8AUG2019", dbParametersSnapshot.getMeanStrikePrice());
+    		ParametersSnapshot parametersSnapshot=parametersService.currentStrickPrice(currentStrickPriceRequest);
     		System.out.println("in try end");
 			parametersRepository.save(parametersSnapshot);
 			System.out.println(parametersRepository.toString());

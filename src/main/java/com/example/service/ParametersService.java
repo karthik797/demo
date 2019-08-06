@@ -14,9 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.controller.ApiController;
 import com.example.model.Call;
+import com.example.model.CurrentStrickPriceRequest;
 import com.example.model.MeanStrickPriceRequest;
 import com.example.model.Parameters;
 import com.example.model.ParametersSnapshot;
@@ -141,10 +143,10 @@ public class ParametersService {
 	}
 	
 
-	public ParametersSnapshot currentStrickPrice(String index,String expiryDate, String meanStrickPrice)
+	public ParametersSnapshot currentStrickPrice(CurrentStrickPriceRequest currentStrickPriceRequest )
 	{
 		
-		System.out.println("currentStrickPrice inputs:" + index + " "+ expiryDate + " "+ meanStrickPrice);
+		System.out.println("currentStrickPrice inputs:" + currentStrickPriceRequest.toString());
 		Element table=null;
 		Element table2=null;
 		Parameters parameters=null;
@@ -153,7 +155,7 @@ public class ParametersService {
 		
 		try {
 			String URL="https://www.nseindia.com/live_market/dynaContent/live_watch/option_chain/optionKeys.jsp?segmentLink=17&instrument=OPTIDX&symbol="
-						+ index +"&date="+ expiryDate;
+						+ currentStrickPriceRequest.getIndex() +"&date="+ currentStrickPriceRequest.getExpiryDate();
 			Document doc = Jsoup.connect(URL).get();
 			
 			table = doc.select("table").get(2);
@@ -176,7 +178,7 @@ public class ParametersService {
 			//	System.out.println("row="+row);
 					
 					StrikePrice=elements.get(row).child(11).select("td[class=grybg]").text();
-					if(StrikePrice.equals(meanStrickPrice))
+					if(StrikePrice.equals(currentStrickPriceRequest.getMeanStrickPrice()))
 					{
 						StrikePriceAtRow=row;
 					}
@@ -213,7 +215,7 @@ public class ParametersService {
 			 String fDate = new SimpleDateFormat("dd-MM-yyyy").format(cDate);
 			 String fTime = new SimpleDateFormat("HH:mm:ss").format(cDate);
 			
-			 parametersSnapshot=new ParametersSnapshot(fDate,fTime, snapSubHeading, meanStrickPrice,"current", index,expiryDate,  parametersList);
+			 parametersSnapshot=new ParametersSnapshot(fDate,fTime, snapSubHeading, currentStrickPriceRequest.getMeanStrickPrice(),"current", currentStrickPriceRequest.getIndex(),currentStrickPriceRequest.getExpiryDate(),  parametersList);
 			
 		
 			
@@ -236,5 +238,6 @@ public class ParametersService {
 		}
 		return dbParametersSnapshot;
 	}
+	
 	
 }
