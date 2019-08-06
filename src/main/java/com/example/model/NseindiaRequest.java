@@ -2,29 +2,19 @@ package com.example.model;
 
 import org.springframework.stereotype.Component;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 @Component
+@Accessors(chain = true)
+@Data    
+@NoArgsConstructor
+@AllArgsConstructor
 public class NseindiaRequest {
 	
-	private String Index;
-	private String ExpiryDate;
-	public String getIndex() {
-		return Index;
-	}
-	public void setIndex(String index) {
-		Index = index;
-	}
-	public String getExpiryDate() {
-		return ExpiryDate;
-	}
-	public void setExpiryDate(String expiryDate) {
-		ExpiryDate = expiryDate;
-	}
-	@Override
-	public String toString() {
-		return "NseindiaRequest [Index=" + Index + ", ExpiryDate=" + ExpiryDate + "]";
-	}
-	
-	
-	
+	private String index;
+	private String expiryDate;
 
 }

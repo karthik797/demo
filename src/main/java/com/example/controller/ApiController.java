@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.model.MeanStrickPriceRequest;
 import com.example.model.NseindiaRequest;
 import com.example.model.NseindiaResponse;
 import com.example.model.ParametersSnapshot;
@@ -39,7 +40,25 @@ public class ApiController {
 		ParametersSnapshot parametersSnapshot=null;
 		try{
 			
-			parametersSnapshot=parametersService.strickPrice(nseindiaRequest.getIndex(), nseindiaRequest.getExpiryDate());
+			parametersSnapshot=parametersService.meanStrickPrice(nseindiaRequest.getIndex(), nseindiaRequest.getExpiryDate());
+			/*for(NseindiaResponse nseindiaResponse: nseindiaResponseList)
+			{
+				System.out.println(nseindiaResponse.toString());
+			}*/
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		LOG.info("Response:" + parametersSnapshot.toString());
+		return parametersSnapshot;
+	}
+	@GetMapping("/api/mean-strick-price")
+	public ParametersSnapshot getMeanStrickPricefromDb(@RequestBody MeanStrickPriceRequest meanStrickPriceRequest) {
+		LOG.info("Request Body:" + meanStrickPriceRequest.toString());
+		ParametersSnapshot parametersSnapshot=null;
+		try{
+			
+			parametersSnapshot=parametersService.getMeanStrickPrice(meanStrickPriceRequest);
 			/*for(NseindiaResponse nseindiaResponse: nseindiaResponseList)
 			{
 				System.out.println(nseindiaResponse.toString());

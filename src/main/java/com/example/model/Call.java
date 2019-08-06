@@ -1,30 +1,17 @@
 package com.example.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+@Accessors(chain = true)
+@Data    
+@NoArgsConstructor
+@AllArgsConstructor
 public class Call{
-	private String OI;
-	private String LTP;
-	
-	public Call(String oI, String lTP) {
-		super();
-		OI = oI;
-		LTP = lTP;
-	}
-	public String getOI() {
-		return OI;
-	}
-	public void setOI(String oI) {
-		OI = oI;
-	}
-	public String getLTP() {
-		return LTP;
-	}
-	public void setLTP(String lTP) {
-		LTP = lTP;
-	}
-	@Override
-	public String toString() {
-		return "Call [OI=" + OI + ", LTP=" + LTP + "]";
-	}
+	private String oI;
+	private String lTP;
 	
 }
 

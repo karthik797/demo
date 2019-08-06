@@ -1,7 +1,6 @@
 package com.example.schedulers;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,7 +35,7 @@ public class EventCreator {
     
     TimerTask tt=null;
     
-    @Scheduled(cron = "0 00 2 * * ?")
+    @Scheduled(cron = "40 31 16 * * ?")
     public void publish() {
        
         LOG.info("Publish started at = ", LocalDateTime.now());
@@ -47,7 +46,7 @@ public class EventCreator {
             @Override  
             public void run() {  
                 insertStackValues(); 
-                if( new Date().getHours()==2 && new Date().getMinutes()==1)
+                if( new Date().getHours()==16 && new Date().getMinutes()==32)
                 {
                 	tt.cancel();
                 }
@@ -61,10 +60,11 @@ public class EventCreator {
     	
     	System.out.println("Task Timer on Fixed Rate" + new Date());
     	try{
-    		
-    		ParametersSnapshot parametersSnapshot=parametersService.strickPrice("BANKNIFTY", "8AUG2019");
-    	
-    	
+    		System.out.println("in try start");
+    		ParametersSnapshot dbParametersSnapshot=parametersRepository.findTop1ByFlagOrderBySnapDateDesc("mean");
+    		System.out.println("In EventCreator dbParametersSnapshot:= " + dbParametersSnapshot.toString()  );
+    		ParametersSnapshot parametersSnapshot=parametersService.currentStrickPrice("BANKNIFTY", "8AUG2019", dbParametersSnapshot.getMeanStrikePrice());
+    		System.out.println("in try end");
 			parametersRepository.save(parametersSnapshot);
 			System.out.println(parametersRepository.toString());
 		}

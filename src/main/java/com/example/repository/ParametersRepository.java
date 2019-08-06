@@ -9,5 +9,18 @@ import com.example.model.ParametersSnapshot;
 
 @Repository
 public interface ParametersRepository extends MongoRepository<ParametersSnapshot, String>{
+
+	ParametersSnapshot findByMeanStrikePrice(String string);
+
+
+	ParametersSnapshot findTop1ByFlagOrderBySnapDateDesc(String string);
+
+	ParametersSnapshot findByFlag(String string);
+
+
+	ParametersSnapshot findTop1ByFlagAndSnapDateOrderBySnapDateDesc(String string, String snapDate);
+	
+	
+
 	
 }

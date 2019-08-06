@@ -1,27 +1,15 @@
 package com.example.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+@Accessors(chain = true)
+@Data    
+@NoArgsConstructor
+@AllArgsConstructor
 public class Put{	
-	@Override
-	public String toString() {
-		return "Put [OI=" + OI + ", LTP=" + LTP + "]";
-	}
-	public Put(String oI, String lTP) {
-		super();
-		OI = oI;
-		LTP = lTP;
-	}
-	public String getOI() {
-		return OI;
-	}
-	public void setOI(String oI) {
-		OI = oI;
-	}
-	public String getLTP() {
-		return LTP;
-	}
-	public void setLTP(String lTP) {
-		LTP = lTP;
-	}
-	private String OI;
-	private String LTP;
+	private String oI;
+	private String lTP;
 }
