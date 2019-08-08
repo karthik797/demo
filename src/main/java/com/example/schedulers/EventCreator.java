@@ -38,7 +38,7 @@ public class EventCreator {
     
     TimerTask tt=null;
     
-    @Scheduled(cron = "30 40 23 * * ?")
+    @Scheduled(cron = "20 3 12 * * ?")
     public void publish() {
        
         LOG.info("Publish started at = ", LocalDateTime.now());
@@ -49,7 +49,7 @@ public class EventCreator {
             @Override  
             public void run() {  
                 insertStackValues(); 
-                if( new Date().getHours()==23 && new Date().getMinutes()==41)
+                if( new Date().getHours()==12 && new Date().getMinutes()==4)
                 {
                 	tt.cancel();
                 }
