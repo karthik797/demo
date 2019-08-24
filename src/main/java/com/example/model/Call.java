@@ -12,6 +12,7 @@ import lombok.experimental.Accessors;
 public class Call{
 	private String oI;
 	private String lTP;
+	private String iV;
 	
 }
 

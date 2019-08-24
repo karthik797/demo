@@ -54,8 +54,11 @@ public class ParametersService {
 			int row=1;
 			String CALLSOI=null;
 			String CALLSLTP=null;
+			String CALLSIV=null;
 			String PUTOI=null;
 			String PUTLTP=null;
+			String PUTIV=null;
+
 			String StrikePrice=null;
 			String MeanStrikePrice=null;
 			int StrikePriceAtRow=0;
@@ -67,14 +70,16 @@ public class ParametersService {
 			//	System.out.println("Childs= "+ elements.get(row).children().size());
 			//	System.out.println("row="+row);
 				
-				if(!elements.get(row).child(2).select("td[class=ylwbg]").text().isEmpty())
+				if(!elements.get(row).child(1).select("td[class=ylwbg]").text().isEmpty())
 				{
 					
-					CALLSOI=elements.get(row).child(2).select("td[class=ylwbg]").text();
+					CALLSOI=elements.get(row).child(1).select("td[class=ylwbg]").text();
+					CALLSIV=elements.get(row).child(4).select("td[class=ylwbg]").text();
+
 					StrikePrice=elements.get(row).child(11).select("td[class=grybg]").text();
 					StrikePriceAtRow=row;
 					MeanStrikePrice=StrikePrice;
-					//System.out.println("chngInOI:=" + chngInOI  +"\n"+ "LTP:=" + LTP);
+					//System.out.println("CALLSOI:=" + CALLSOI  +"\n"+ "CALLSIV:=" + CALLSIV);
 					
 				}
 				if(!elements.get(row).child(5).select("td[class=ylwbg]").text().isEmpty())
@@ -88,38 +93,49 @@ public class ParametersService {
 				{
 				
 					PUTLTP=elements.get(row).child(17).select("td[class=nobg]").text();
+
 					
 				}
-				if(  !elements.get(row).child(20).select("td[class=nobg]").text().isEmpty())
+				if(  !elements.get(row).child(21).select("td[class=nobg]").text().isEmpty())
 				{
-					PUTOI=elements.get(row).child(20).select("td[class=nobg]").text();
+					PUTOI=elements.get(row).child(21).select("td[class=nobg]").text();
+					PUTIV=elements.get(row).child(18).select("td[class=nobg]").text();
+
 				}	
 				
 				row++;
+				
 			}
 			
 			
 			//System.out.println("StrickePriceAt= "+ StrikePriceAtRow);
-			for(int i=StrikePriceAtRow-7;i<=StrikePriceAtRow+7;i++)
+			for(int i=StrikePriceAtRow-8;i<=StrikePriceAtRow+8;i++)
 			{
-				
+				//System.out.println("In service ");
 				row=i;
-				CALLSOI=elements.get(row).child(2).text();
+				CALLSOI=elements.get(row).child(1).text();
 				StrikePrice=elements.get(row).child(11).text();
+				CALLSIV=elements.get(row).child(4).text();
+
 				CALLSLTP=elements.get(row).child(5).text();
 				PUTLTP=elements.get(row).child(17).text();
-				PUTOI=elements.get(row).child(20).text();
+				PUTOI=elements.get(row).child(21).text();
+				PUTIV=elements.get(row).child(18).text();
+
 				//System.out.println("StrickePriceAt= "+ i);
 				
 				CALLSOI=CALLSOI.replaceAll(",", "");
+				CALLSIV=CALLSIV.replaceAll(",", "");
 				CALLSLTP=CALLSLTP.replaceAll(",", "");
 				PUTOI=PUTOI.replaceAll(",", "");
 				PUTLTP=PUTLTP.replaceAll(",", "");
+				PUTIV=PUTIV.replaceAll(",", "");
 				StrikePrice=StrikePrice.replaceAll(",", "");
-				parameters=new Parameters(StrikePrice, new Call(CALLSOI, CALLSLTP),
-						new Put(PUTOI, PUTLTP));
+				parameters=new Parameters(StrikePrice, new Call(CALLSOI, CALLSLTP, CALLSIV),
+						new Put(PUTOI, PUTLTP, PUTIV));
 				parametersList.add(parameters);
-			//	System.out.println("In service "+ nseindiaResponse.toString());
+				//System.out.println("parametersList" + parametersList.toString());
+
 	
 			}
 	
@@ -163,8 +179,10 @@ public class ParametersService {
 			int row=1;
 			String CALLSOI=null;
 			String CALLSLTP=null;
+			String CALLSIV=null;
 			String PUTOI=null;
 			String PUTLTP=null;
+			String PUTIV=null;
 			String StrikePrice=null;
 			int StrikePriceAtRow=0;
 			
@@ -186,24 +204,31 @@ public class ParametersService {
 			
 			
 			//System.out.println("StrickePriceAt= "+ StrikePriceAtRow);
-			for(int i=StrikePriceAtRow-7;i<=StrikePriceAtRow+7;i++)
+			for(int i=StrikePriceAtRow-8;i<=StrikePriceAtRow+8;i++)
 			{
 				
 				row=i;
-				CALLSOI=elements.get(row).child(2).text();
+				CALLSOI=elements.get(row).child(1).text();
 				StrikePrice=elements.get(row).child(11).text();
 				CALLSLTP=elements.get(row).child(5).text();
+				CALLSIV=elements.get(row).child(4).text();
 				PUTLTP=elements.get(row).child(17).text();
-				PUTOI=elements.get(row).child(20).text();
+				PUTOI=elements.get(row).child(21).text();
+				PUTIV=elements.get(row).child(18).text();
+
 				//System.out.println("StrickePriceAt= "+ i);
 				
 				CALLSOI=CALLSOI.replaceAll(",", "");
 				CALLSLTP=CALLSLTP.replaceAll(",", "");
+				CALLSIV=CALLSIV.replaceAll(",", "");
+
 				PUTOI=PUTOI.replaceAll(",", "");
 				PUTLTP=PUTLTP.replaceAll(",", "");
+				PUTIV=PUTIV.replaceAll(",", "");
+
 				StrikePrice=StrikePrice.replaceAll(",", "");
-				parameters=new Parameters(StrikePrice, new Call(CALLSOI, CALLSLTP),
-						new Put(PUTOI, PUTLTP));
+				parameters=new Parameters(StrikePrice, new Call(CALLSOI, CALLSLTP,CALLSIV),
+						new Put(PUTOI, PUTLTP, PUTIV));
 				parametersList.add(parameters);
 			//	System.out.println("In service "+ nseindiaResponse.toString());
 	
@@ -234,6 +259,7 @@ public class ParametersService {
 		{
 			LOG.info(e.getStackTrace().toString());
 		}
+		LOG.info("dbParametersSnapshot: "+ dbParametersSnapshot);
 		return dbParametersSnapshot;
 	}
 	

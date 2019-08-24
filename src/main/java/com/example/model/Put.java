@@ -12,4 +12,6 @@ import lombok.experimental.Accessors;
 public class Put{	
 	private String oI;
 	private String lTP;
+	private String iV;
+
 }
