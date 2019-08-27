@@ -71,7 +71,12 @@ public class ApiController {
 	}
 	
 	@GetMapping("/api/live-strick-price")
-	public ParametersSnapshot getLiveStrickPrice(@RequestBody CurrentStrickPriceRequest currentStrickPriceRequest) {
+	public ParametersSnapshot getLiveStrickPrice(@RequestHeader Map<String, String> headers) {
+		
+		LOG.info("Request headers:" + headers.toString());
+		CurrentStrickPriceRequest currentStrickPriceRequest=new CurrentStrickPriceRequest(headers.get("index"),headers.get("expirydate"), headers.get("meanstrickprice"));
+		LOG.info("CurrentStrickPriceRequest :" + currentStrickPriceRequest.toString());
+		
 		LOG.info("Request Body:" + currentStrickPriceRequest.toString());
 		ParametersSnapshot parametersSnapshot=null;
 		try{
