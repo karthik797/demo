@@ -13,5 +13,6 @@ public class MeanStrickPriceRequest {
  
 	private String index;
 	private String snapDate;
+	private String flag;
 
 }

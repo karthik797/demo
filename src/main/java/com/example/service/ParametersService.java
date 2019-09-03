@@ -249,11 +249,26 @@ public class ParametersService {
 		return parametersSnapshot;
 	}
 
-	public ParametersSnapshot getMeanStrickPrice(MeanStrickPriceRequest meanStrickPriceRequest)
+	public List<ParametersSnapshot> getMeanStrickPrice(MeanStrickPriceRequest meanStrickPriceRequest)
 	{
-		ParametersSnapshot dbParametersSnapshot=null;
+		
+		List<ParametersSnapshot> dbParametersSnapshot=new ArrayList<ParametersSnapshot>();
 		try{
-			dbParametersSnapshot=parametersRepository.findTop1ByFlagAndSnapDateOrderBySnapDateDesc("mean",meanStrickPriceRequest.getSnapDate());
+			if(meanStrickPriceRequest.getFlag().equals("mean"))
+			{
+				
+				dbParametersSnapshot.add(parametersRepository.findTop1ByFlagAndSnapDateOrderBySnapDateDesc(meanStrickPriceRequest.getFlag(),meanStrickPriceRequest.getSnapDate()));
+				LOG.info(" Mean dbParametersSnapshot "+ dbParametersSnapshot);
+			}
+			else
+			{
+				 Date cDate = new Date();
+				 String fDate = new SimpleDateFormat("dd-MM-yyyy").format(cDate);
+				LOG.info("Current: " + parametersRepository.findByFlagAndSnapDate(meanStrickPriceRequest.getFlag(), meanStrickPriceRequest.getSnapDate()).iterator().next().toString());
+				dbParametersSnapshot=parametersRepository.findByFlagAndSnapDate(meanStrickPriceRequest.getFlag(), meanStrickPriceRequest.getSnapDate());
+				LOG.info(" Mean dbParametersSnapshot "+ dbParametersSnapshot);
+			}
+			
 		}
 		catch(Exception e)
 		{

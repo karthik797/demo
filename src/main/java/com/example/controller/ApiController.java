@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -49,12 +50,13 @@ public class ApiController {
 	}
 	
 	@GetMapping("/api/mean-strick-price")
-	public ParametersSnapshot getMeanStrickPricefromDb(@RequestHeader Map<String, String> headers) {
+	public List<ParametersSnapshot> getMeanStrickPricefromDb(@RequestHeader Map<String, String> headers) {
 		LOG.info("Request headers:" + headers.toString());
-		MeanStrickPriceRequest meanStrickPriceRequest=new MeanStrickPriceRequest(headers.get("index"),headers.get("snapdate"));
+		MeanStrickPriceRequest meanStrickPriceRequest=
+				new MeanStrickPriceRequest(headers.get("index"),headers.get("snapdate"), headers.get("flag"));
 		LOG.info("MeanStrickPriceRequest :" + meanStrickPriceRequest.toString());
 
-		ParametersSnapshot parametersSnapshot=null;
+		List<ParametersSnapshot> parametersSnapshot=null;
 		try{
 			
 			parametersSnapshot=parametersService.getMeanStrickPrice(meanStrickPriceRequest);

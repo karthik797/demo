@@ -1,5 +1,7 @@
 package com.example.repository;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,10 +17,13 @@ public interface ParametersRepository extends MongoRepository<ParametersSnapshot
 
 	ParametersSnapshot findTop1ByFlagOrderBySnapDateDesc(String string);
 
-	ParametersSnapshot findByFlag(String string);
-
+	List<ParametersSnapshot> findByFlagAndSnapDate(String flag, String snapdate);
+	List<ParametersSnapshot> findByFlag(String flag);
 
 	ParametersSnapshot findTop1ByFlagAndSnapDateOrderBySnapDateDesc(String string, String snapDate);
+
+
+	ParametersSnapshot findByFlagAndSnapDateOrderBySnapDateDesc(String flag, String snapDate);
 	
 	
 
