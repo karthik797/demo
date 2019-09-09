@@ -38,7 +38,7 @@ public class EventCreator {
     
     TimerTask tt=null;
     
-    @Scheduled(cron = "20 19 18 * * ?")
+    @Scheduled(cron = "00 30 09 * * ?")
     public void publish() {
        
         LOG.info("Publish started at = ", LocalDateTime.now());
@@ -49,13 +49,13 @@ public class EventCreator {
             @Override  
             public void run() {  
                 insertStackValues(); 
-                if( new Date().getHours()==18 && new Date().getMinutes()==20)
+                if( new Date().getHours()==15 && new Date().getMinutes()==30)
                 {
                 	tt.cancel();
                 }
             };  
         };  
-        t.scheduleAtFixedRate(tt,new Date(),10000);  
+        t.scheduleAtFixedRate(tt,new Date(),900000);  
        
            }
     public void insertStackValues()
@@ -66,7 +66,7 @@ public class EventCreator {
     		System.out.println("in try start");
     		ParametersSnapshot dbParametersSnapshot=parametersRepository.findTop1ByFlagOrderBySnapDateDesc("mean");
     		System.out.println("In EventCreator dbParametersSnapshot:= " + dbParametersSnapshot.toString()  );
-    		CurrentStrickPriceRequest currentStrickPriceRequest=new CurrentStrickPriceRequest("BANKNIFTY", "5SEP2019", dbParametersSnapshot.getMeanStrikePrice());
+    		CurrentStrickPriceRequest currentStrickPriceRequest=new CurrentStrickPriceRequest(dbParametersSnapshot.getIndex(),dbParametersSnapshot.getExpiryDate(), dbParametersSnapshot.getMeanStrikePrice());
     		ParametersSnapshot parametersSnapshot=parametersService.currentStrickPrice(currentStrickPriceRequest);
     		System.out.println("in try end");
 			parametersRepository.save(parametersSnapshot);

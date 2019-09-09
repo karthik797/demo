@@ -257,15 +257,18 @@ public class ParametersService {
 			if(meanStrickPriceRequest.getFlag().equals("mean"))
 			{
 				
-				dbParametersSnapshot.add(parametersRepository.findTop1ByFlagAndSnapDateOrderBySnapDateDesc(meanStrickPriceRequest.getFlag(),meanStrickPriceRequest.getSnapDate()));
+				dbParametersSnapshot.add(parametersRepository.findTop1ByFlagAndSnapDateAndIndexOrderBySnapDateDesc(meanStrickPriceRequest.getFlag(),meanStrickPriceRequest.getSnapDate(),meanStrickPriceRequest.getIndex()));
 				LOG.info(" Mean dbParametersSnapshot "+ dbParametersSnapshot);
 			}
 			else
 			{
 				 Date cDate = new Date();
 				 String fDate = new SimpleDateFormat("dd-MM-yyyy").format(cDate);
-				LOG.info("Current: " + parametersRepository.findByFlagAndSnapDate(meanStrickPriceRequest.getFlag(), meanStrickPriceRequest.getSnapDate()).iterator().next().toString());
-				dbParametersSnapshot=parametersRepository.findByFlagAndSnapDate(meanStrickPriceRequest.getFlag(), meanStrickPriceRequest.getSnapDate());
+				LOG.info("Current: " + parametersRepository.findByFlagAndSnapDateAndIndex(
+						meanStrickPriceRequest.getFlag(), 
+						meanStrickPriceRequest.getSnapDate(), 
+						meanStrickPriceRequest.getIndex()));
+				dbParametersSnapshot=parametersRepository.findByFlagAndSnapDateAndIndex(meanStrickPriceRequest.getFlag(), meanStrickPriceRequest.getSnapDate(), meanStrickPriceRequest.getIndex());
 				LOG.info(" Mean dbParametersSnapshot "+ dbParametersSnapshot);
 			}
 			

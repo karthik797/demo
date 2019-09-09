@@ -31,8 +31,10 @@ public class ApiController {
 	NseindiaResponse nseindiaResponse;
 	
 	@GetMapping("/api")
-	public ParametersSnapshot parameters(@RequestBody NseindiaRequest nseindiaRequest ) {
-		LOG.info("Request Body:" + nseindiaRequest.toString());
+	public ParametersSnapshot parameters(@RequestHeader Map<String, String> headers) {
+		LOG.info("Request Body:" + headers.toString());
+		 NseindiaRequest nseindiaRequest =new NseindiaRequest(headers.get("index"), headers.get("expirydate"));
+		LOG.info("MeanStrickPriceRequest :" + nseindiaRequest.toString());
 		ParametersSnapshot parametersSnapshot=null;
 		try{
 			
