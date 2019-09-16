@@ -38,7 +38,7 @@ public class EventCreator {
     
     TimerTask tt=null;
     
-    @Scheduled(cron = "00 30 09 * * ?")
+    @Scheduled(cron = "00 15 09 * * ?")
     public void publish() {
        
         LOG.info("Publish started at = ", LocalDateTime.now());
